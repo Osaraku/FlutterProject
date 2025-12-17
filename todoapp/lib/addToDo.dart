@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class AddToDo extends StatefulWidget {
-  const AddToDo({super.key});
+  void Function({required String todoText}) addTodo;
+
+  AddToDo({super.key, required this.addTodo});
 
   @override
   State<AddToDo> createState() => _AddToDoState();
@@ -16,13 +19,28 @@ class _AddToDoState extends State<AddToDo> {
       children: [
         Text('Add Todo:'),
         TextField(
+          onSubmitted: (value) {
+            if (todoText.text.isNotEmpty) {
+              widget.addTodo(todoText: todoText.text);
+            } else {}
+            todoText.text = "";
+          },
+          autofocus: true,
           controller: todoText,
           decoration: InputDecoration(
             hintText: 'Input your todo here',
-            labelText: 'Username',
+            labelText: 'To Do',
           ),
         ),
-        ElevatedButton(onPressed: () {}, child: Text('Add')),
+        ElevatedButton(
+          onPressed: () {
+            if (todoText.text.isNotEmpty) {
+              widget.addTodo(todoText: todoText.text);
+            } else {}
+            todoText.text = "";
+          },
+          child: Text('Add'),
+        ),
       ],
     );
   }
